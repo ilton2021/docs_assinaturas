@@ -14,7 +14,7 @@ class CreateDocumentosTable extends Migration
     public function up()
     {
         Schema::create('documentos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id');   
             $table->string('nome');
             $table->string('caminho');
             $table->string('tipo');

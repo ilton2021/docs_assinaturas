@@ -14,7 +14,7 @@ class CreateAprovacaoTable extends Migration
     public function up()
     {
         Schema::create('aprovacao', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id');  
             $table->string('observacao');
             $table->string('ativo');        
             $table->date('data_aprovacao');    

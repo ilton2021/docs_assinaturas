@@ -15,7 +15,7 @@ class CreateFuncaoTable extends Migration
     {
         Schema::create('funcao', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('descricao');
+            $table->string('descricao');  
             $table->timestamps();
         });
     }

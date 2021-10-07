@@ -14,7 +14,7 @@ class CreateGestorTable extends Migration
     public function up()
     {
         Schema::create('gestor', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id');  
             $table->string('nome');
             $table->string('email');
             $table->string('cpf');
