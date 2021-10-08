@@ -117,8 +117,8 @@ class UserController extends Controller
 	public function emailReset(Request $request)
 	{  
 		$input = $request->all(); 
-		$email = $input['email'];
-		$usuarios = User::where('email',$email)->get();
+		$email = $input['email']; 
+		$usuarios = User::where('email',$email)->get(); 
 		$qtd = sizeof($usuarios);
 		$validator = Validator::make($request->all(), [
 			'email' => 'required|email',
@@ -159,7 +159,7 @@ class UserController extends Controller
 						->withInput(session()->flashInput($request->input()));
 				}
 			}else{ 
-				$validator = 'Este E-mail não foi cadastrado no Portal da MP.';
+				$validator = 'Este E-mail não foi cadastrado no Portal da Assinatura dos Contratos.';
 				return view('auth.passwords.email', compact('email','usuarios'))
 					->withErrors($validator)
 					->withInput(session()->flashInput($request->input()));

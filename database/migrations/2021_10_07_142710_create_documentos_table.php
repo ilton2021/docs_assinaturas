@@ -16,10 +16,11 @@ class CreateDocumentosTable extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->bigIncrements('id');   
             $table->string('nome');
+            $table->string('numeroDoc');
             $table->string('caminho');
             $table->string('tipo');
-            $table->unsignedBigInteger('gestor_imediato_id');
-            $table->foreign('gestor_imediato_id')->references('id')->on('gestor');
+            $table->unsignedBigInteger('solicitante_id');
+            $table->foreign('solicitante_id')->references('id')->on('gestor');
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->timestamps();
