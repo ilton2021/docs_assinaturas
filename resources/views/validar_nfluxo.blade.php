@@ -23,12 +23,12 @@
         </ul>
       </div>
 	  @endif		 
-	  <form action="{{ route('storeValidar_fluxo', $documentos[0]->id) }}" method="POST">             
+	  <form action="{{ route('storenValidar_fluxo', $documentos[0]->id) }}" method="POST">             
 	  <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <center>
 		   <table class="table table-bordered" style="width: 1000px;" cellspacing="0"> 
 			<tr>
-			  <td colspan="2"><center><strong><h3><br>Validar - Fluxo de Assinaturas de Documentos</h3></strong></center></td>
+			  <td colspan="2"><center><strong><h3><br>Reprovar - Fluxo de Assinaturas de Documentos</h3></strong></center></td>
 			  <td hidden><input hidden class="form-control" type="text" id="ativo" name="ativo" value="" readonly="true" /></td>
 			  <td hidden><input hidden class="form-control" type="date" id="data_aprovacao" name="data_aprovacao" value="" readonly="true" /></td>
               <td hidden><input hidden class="form-control" type="text" id="gestor_id" name="gestor_id" value="<?php echo $gestor[0]->id; ?>" readonly="true" /></td>
@@ -71,9 +71,9 @@
 		  <table class="table table-bordered" style="width: 1000px;" cellspacing="0">
 		   <tr>
             <td align="left"><a href="javascript:history.back();" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a></td>
-		    <td align="right"> 
-			 <a href="{{ route('validar_nfluxo', $documentos[0]->id) }}" id="Voltar" name="Voltar" type="button" class="btn btn-danger btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Reprovar <i class="fas fa-undo-alt"></i> </a>
-             <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Aprovar" id="Salvar" name="Salvar" /> 
+		    <td><b><center>Deseja Reprovar este Documento? E voltar para Correção do Solicitante!?</center></b></td>
+			<td align="right"> 
+			 <input type="submit" class="btn btn-danger btn-sm" style="margin-top: 10px;" value="Reprovar" id="Salvar" name="Salvar" /> 
 			</td>
 		   </tr>
 		  </table>

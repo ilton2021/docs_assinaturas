@@ -110,14 +110,15 @@ class DocumentosController extends Controller
 	}
 
 	public function checkDoc($id)
-	{
-		$documentos = Documentos::where('id',$id)->get();
+	{ 
+		$documentos = Documentos::where('id',$id)->get(); 
 		$id = $documentos[0]->unidade_id;
 		$id_Gestor = Auth::user()->id;
         $gestor = Gestor::where('id',$id_Gestor)->get();
         $id_GestorImediato = $gestor[0]->gestor_imediato_id;
         $gestor = Gestor::where('id',$id_GestorImediato)->get();
-		return redirect()->route('fluxo',[$id])
-				->with('documentos','gestor');
+		$idD = $documentos[0]->id;
+		return redirect()->route('fluxo', [$id])
+				->with('documentos','gestor','idD');
 	}
 }

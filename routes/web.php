@@ -32,4 +32,7 @@ Route::get('fluxo/{id}', [App\Http\Controllers\HomeController::class, 'fluxo'])-
 Route::post('fluxo/{id}', [App\Http\Controllers\HomeController::class, 'storeFluxo'])->name('storeFluxo');
 Route::get('validarFluxo/{id}', [App\Http\Controllers\HomeController::class, 'validar_fluxo'])->name('validar_fluxo');
 Route::post('validarFluxo/{id}', [App\Http\Controllers\HomeController::class, 'storeValidar_fluxo'])->name('storeValidar_fluxo');
-Route::get('validarDocs/{id}', [App\Http\Controllers\HomeController::class, 'validarDocs'])->name('validarDocs');
+Route::get('nvalidarFluxo/{id}', [App\Http\Controllers\HomeController::class, 'validar_nfluxo'])->name('validar_nfluxo');
+Route::post('nvalidarFluxo/{id}', [App\Http\Controllers\HomeController::class, 'storenValidar_fluxo'])->name('storenValidar_fluxo');
+Route::get('validarDocs', [App\Http\Controllers\HomeController::class, 'validarDocs'])->name('validarDocs');
+Route::get('visualizarFluxos', [App\Http\Controllers\HomeController::class, 'visualizarFluxos'])->name('visualizarFluxos');

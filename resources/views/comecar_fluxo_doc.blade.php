@@ -21,9 +21,9 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-      </div>
-	  @endif		 
-	  <form action="{{ route('storeFluxo', $documentos[0]->unidade_id) }}" method="POST">             
+      </div> 
+	  @endif <?php $qtd = sizeof($documentos); if($qtd > 0){ $id = $documentos[0]->id; }else{ $id = 0; }  ?>
+	  <form action="{{ route('storeFluxo', $id) }}" method="POST">             
 	  <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <center>
 		   <table class="table table-bordered" style="width: 1000px;" cellspacing="0"> 
@@ -34,7 +34,9 @@
               <td hidden><input hidden class="form-control" type="text" id="gestor_id" name="gestor_id" value="<?php echo $gestor[0]->id; ?>" readonly="true" /></td>
 			  <td hidden><input hidden class="form-control" type="text" id="gestor_anterior_id" name="gestor_anterior_id" value="<?php echo Auth::user()->id; ?>" readonly="true" /></td>
               <td hidden><input hidden class="form-control" type="text" id="unidade_id" name="unidade_id" value="" readonly="true" /></td>
-              <td hidden><input hidden class="form-control" type="text" id="documento_id" name="documento_id" value="<?php echo $documentos[0]->id; ?>" readonly="true" /></td>
+			  @if($qtd > 0)   
+			  <td hidden><input hidden class="form-control" type="text" id="documento_id" name="documento_id" value="<?php echo $documentos[0]->id; ?>" readonly="true" /></td>
+			  @endif
 			</tr>
             <tr>
 			  <td>Solicitante: <input readonly="true" class="form-control" type="text" id="solicitante" name="solicitante" required value="<?php echo Auth::user()->name; ?>" /></td>
@@ -42,11 +44,17 @@
         	</tr>
             <tr>
               <td>Documento:
-               <input id="arquivo" name="arquivo" class="form-control" value="<?php echo $documentos[0]->nome; ?>" required> 
-              </td>
-              <td>Pesquisa:<br>
+				  <select id="documento_id" name="documento_id" class="form-control">
+					<option id="documento_id" name="documento_id" value="">Selecione..</option>  
+					@foreach($documentos as $doc)
+					 <option id="documento_id" name="documento_id" required="true" value="<?php echo $doc->id; ?>">{{ $doc->nome }}</option>
+					@endforeach
+				  </select>
+				 <!--input id="arquivo" name="arquivo" class="form-control" value="" required--> 
+			  </td>
+              <!--td>Pesquisa:<br>
                 <a href="{{ route('pesquisarDocumento') }}" class="btn btn-sm btn-info">Pesquisar Documento</a>
-              </td>
+              </td-->
               <td>Data Prevista: <input class="form-control" type="date" id="data_prevista" name="data_prevista" required value="{{ Request::old('data_prevista') }}" /></td>
             </tr>
 		   </table>
