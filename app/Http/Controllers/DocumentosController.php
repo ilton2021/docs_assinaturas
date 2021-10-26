@@ -67,14 +67,60 @@ class DocumentosController extends Controller
     public function alterarDoc($id, Request $request)
     {
         $documentos = Documentos::where('id',$id)->get();
-        return view('alterar_documento', compact('documentos'));
+		$unidades = Unidades::all();
+
+        return view('alterar_documento', compact('documentos','unidades'));
     }
+
+
+	public function updateDoc($id, Request $request)
+    {
+        $input = $request->all();
+        $validator = Validator::make($request->all(), [
+			'nome' => 'required|max:255',
+		]);
+        if ($validator->fails()) {
+			$documentos = Documentos::where('id',$id)->get();
+			$unidades = Unidades::all();
+			return view('alterar_documento', compact('documentos','unidades'))
+				  ->withErrors($validator)
+                  ->withInput(session()->flashInput($request->input()));
+		} else {
+            $documentos = Documentos::find($id);
+            $documentos = $documentos->update($input);
+            $documentos = Documentos::all();
+            $validator = "Documento Alterado com Sucesso!!";
+            return view('cadastro_documento', compact('documentos'))
+				  ->withErrors($validator)
+                  ->withInput(session()->flashInput($request->input()));
+        }
+    }
+
+
+
 
     public function excluirDoc($id, Request $request)
     {
         $documentos = Documentos::where('id',$id)->get();
-        return view('excluir_documento', compact('documentos'));
+		$unidades = Unidades::all();
+        return view('excluir_documento', compact('documentos','unidades'));
     }
+
+
+	public function destroyDoc($id, Request $request)
+    {
+        $input = $request->all();
+        $documentos = Documentos::find($id);
+        $documentos = $documentos->delete($input);
+        $documentos = Documentos::all();
+        $validator = "Documento Excluído com Sucesso!!";
+        return view('cadastro_documento', compact('documentos'))
+				  ->withErrors($validator)
+                  ->withInput(session()->flashInput($request->input()));
+    }
+	
+
+
 
 	public function pesquisarDocumento()
 	{

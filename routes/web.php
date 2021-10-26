@@ -22,7 +22,9 @@ Route::get('/documentos/cadastro', [App\Http\Controllers\DocumentosController::c
 Route::get('/documentos/cadastro/novo', [App\Http\Controllers\DocumentosController::class, 'novoDoc'])->name('novoDoc');
 Route::post('/documentos/cadastro/novo', [App\Http\Controllers\DocumentosController::class, 'storeDoc'])->name('storeDoc');
 Route::get('/documentos/cadastro/alterar/{id}', [App\Http\Controllers\DocumentosController::class, 'alterarDoc'])->name('alterarDoc');
+Route::post('/documentos/cadastro/alterar/{id}', [App\Http\Controllers\DocumentosController::class, 'updateDoc'])->name('updateDoc');
 Route::get('/documentos/cadastro/excluir/{id}', [App\Http\Controllers\DocumentosController::class, 'excluirDoc'])->name('excluirDoc');
+Route::post('/documentos/cadastro/excluir/{id}', [App\Http\Controllers\DocumentosController::class, 'destroyDoc'])->name('destroyDoc');
 Route::get('pesquisarDocumento', [App\Http\Controllers\DocumentosController::class, 'pesquisarDocumento'])->name('pesquisarDocumento');
 Route::post('pesquisarDocumento', [App\Http\Controllers\DocumentosController::class, 'pesqDocumento'])->name('pesqDocumento');
 Route::get('pesquisarDocumento/checkar/{id}', [App\Http\Controllers\DocumentosController::class, 'checkDoc'])->name('checkDoc');

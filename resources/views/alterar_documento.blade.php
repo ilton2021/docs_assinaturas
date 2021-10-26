@@ -27,6 +27,8 @@
                         <div class="p-6">
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                <form action="{{ \Request::route('updateDoc') }}" method="POST" enctype="multipart/form-data">
+                                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <table class="table table-sm table-bordered" style="width:1000px; align: center;">
                                     <thead>
                                       <tr>
@@ -39,10 +41,40 @@
                                     </tr>
                                     </thead>
                                     @foreach($documentos as $docs)
+
                                     <tr> 
-                                      <td> {{ $docs->nome }} </td>
+                                      <td> Nome do Documento: </td>
+                                      <td> <input type="text" id="nome" name="nome" class="form-control" required="true" value="<?php echo $docs->nome; ?>"> </td>
+                                    </tr>
+                                    <tr> 
+                                      <td> Documento: </td>
+                                      <td> <input readonly="true" type="text" id="txt" name="txt" class="form-control" required="true" value="<?php echo $docs->caminho; ?>">
+                                      <input type="file" id="imagem" name="imagem" class="form-control">  </td>
+                                    </tr>
+                                    <tr> 
+                                      <td> Unidade do Documento: </td>
+                                      <td> 
+                                         
+
+                                      <select id="unidade_id" name="unidade_id" class="form-control" width="200px">
+                                            @foreach($unidades as $und)
+                                             @if($und->id == $documentos[0]->unidade_id)
+                                                <option id="unidade_id" name="unidade_id" value="<?php echo $und->id; ?>" selected>{{ $und->nome }}</option>
+                                             @else
+                                                <option id="unidade_id" name="unidade_id" value="<?php echo $und->id; ?>">{{ $und->nome }}</option>
+                                             @endif
+                                            @endforeach
+
+                                        </td>
                                     </tr>
                                     @endforeach
+                                    <table>
+                                    <tr>
+                                    <td> <br /> <a href="" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a> </td>
+                                    <td> <input type="submit" class="btn btn-success btn-ml" value="Salvar" id="Salvar" name="Salvar" /> </p></td>
+                                   
+                                    </tr>
+                                    </table>
                                     </table>
                                 </div>
                             </div>

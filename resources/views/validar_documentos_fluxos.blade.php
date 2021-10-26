@@ -23,10 +23,12 @@
 				<h4 class="d-none d-sm-block">Documentos - Assinaturas HCPGESTÃO</h4>
 			</span>
     </nav>
+        
     <section id="unidades">
     	<p align="right"><a href="{{ url('/home') }}" class="btn btn-warning btn-sm" style="color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a></p>
         <div class="row">
-            <div class="col-12 text-center">
+        
+        <div class="col-12 text-center">
                 <span><h3 style="color:#65b345; margin-bottom:0px;">Escolha uma opção:</h3></span>
             </div>
         </div>
