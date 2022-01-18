@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-
 </head>
 <body>
     <div id="app">
@@ -18,7 +17,7 @@
             <div class="container">
             <img src="{{asset('imagens/gestao.png')}}"  height="50" class="d-inline-block align-top" alt="">
 					<span class="navbar-brand mb-0 h1" style="margin-left:10px;margin-top:5px ;color: rgb(103, 101, 103) !important">
-						<h4 class="d-none d-sm-block"><b>FLUXO DE DOCUMENTAÇÃO</b></h4>
+						<h4 class="d-none d-sm-block"><b>PORTAL DE ASSINATURAS DE NF</b></h4>
 					</span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

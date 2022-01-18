@@ -10,6 +10,8 @@ class Funcao extends Model
     protected $table = 'funcao';
 
     protected $fillable = [
-
+        'descricao',
+        'created_at',
+        'updated_at'
     ];
 }

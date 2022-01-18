@@ -28,7 +28,7 @@
           <center>
 		   <table class="table table-bordered" style="width: 1000px;" cellspacing="0"> 
 			<tr>
-			  <td colspan="2"><center><strong><h3><br>Validar - Fluxo de Assinaturas de Documentos</h3></strong></center></td>
+			  <td colspan="2"><center><strong><h3><br>Validar - Fluxo de Assinaturas de NF</h3></strong></center></td>
 			  <td hidden><input hidden class="form-control" type="text" id="ativo" name="ativo" value="" readonly="true" /></td>
 			  <td hidden><input hidden class="form-control" type="date" id="data_aprovacao" name="data_aprovacao" value="" readonly="true" /></td>
               <td hidden><input hidden class="form-control" type="text" id="gestor_id" name="gestor_id" value="<?php echo $gestor[0]->id; ?>" readonly="true" /></td>
@@ -39,7 +39,7 @@
 			<tr>
              <td>Documento: 
              <br><a href="{{asset('storage')}}/{{$documentos[0]->caminho}}" target="_blank" class="btn btn-sm btn-success" width="100px"><?php echo $documentos[0]->nome; ?></a> 
-             </td>
+			 </td>
              <td>Data Prevista: <input class="form-control" readonly="true" type="text" id="data_prevista" name="data_prevista" required value="<?php echo date('d-m-Y',strtotime($aprovacao[0]->data_prevista)); ?>" /></td>
             </tr>
             <tr>

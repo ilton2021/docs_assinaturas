@@ -19,6 +19,8 @@ class CreateDocumentosTable extends Migration
             $table->string('numeroDoc');
             $table->string('caminho');
             $table->string('tipo');
+            $table->unsignedBigInteger('fornecedor_id');
+            $table->foreign('fornecedor_id')->references('id')->on('fornecedores');
             $table->unsignedBigInteger('solicitante_id');
             $table->foreign('solicitante_id')->references('id')->on('gestor');
             $table->unsignedBigInteger('unidade_id');

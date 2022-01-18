@@ -16,7 +16,9 @@ class Documentos extends Model
         'caminho',
         'tipo',
         'solicitante_id',
+        'fornecedor_id',
         'unidade_id',
+        'gestor_id',
         'created_at',
         'updated_at'
     ];

@@ -44,7 +44,7 @@
         	</tr>
             <tr>
               <td>Documento:
-				  <select id="documento_id" name="documento_id" class="form-control">
+				  <select id="documento_id" name="documento_id" class="form-control" required>
 					<option id="documento_id" name="documento_id" value="">Selecione..</option>  
 					@foreach($documentos as $doc)
 					 <option id="documento_id" name="documento_id" required="true" value="<?php echo $doc->id; ?>">{{ $doc->nome }}</option>

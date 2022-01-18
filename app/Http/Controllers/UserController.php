@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Unidades;
 use App\Models\AlterarSenha;
 use Spatie\Permission\Models\Role;
 use DB;
@@ -36,24 +37,39 @@ class UserController extends Controller
 	public function cadastroUsuario()
 	{
 		$users = User::all();
-		return view('users/users_cadastro', compact('users'));
+		return view('users/cadastro_users', compact('users'));
 	}
 
 	public function cadastroUsuarioNovo()
 	{
-		return view('users/users_cadastro_novo');
+		$unidades = Unidades::all();
+		return view('users/novo_users', compact('unidades'));
 	}
 
 	public function cadastroUsuarioAlterar($id)
 	{
-		$users = User::where('id',$id)->get();
-		return view('users/users_cadastro_alterar', compact('users')); 
+		$users 	  = User::where('id',$id)->get();
+		$unidades = Unidades::all();
+		return view('users/alterar_users', compact('users','unidades')); 
 	}
 
 	public function cadastroUsuarioExcluir($id)
 	{
 		$users = User::where('id',$id)->get();
-		return view('users/users_cadastro_excluir', compact('users'));
+		return view('users/excluir_users', compact('users'));
+	}
+
+	public function pesquisarUsuario(Request $request)
+	{
+		$input = $request->all();
+		if(empty($input['pesq'])) { $input['pesq'] = ""; }
+		$pesq  = $input['pesq'];
+		if($pesq != ""){
+			$users = DB::table('users')->where('name','like','%'.$pesq.'%')->get();
+		} else {
+			$users = DB::table('users')->get();
+		}
+		return view('users/cadastro_users', compact('users','pesq'));
 	}
 	
 	public function alterarSenhaUsuario($id)
@@ -69,7 +85,8 @@ class UserController extends Controller
 
 	public function telaRegistro()
 	{
-		return view('auth.register');
+		$unidades = Unidades::all();
+		return view('auth.register', compact('unidades'));
 	}
 	
 	public function telaEmail()
@@ -198,7 +215,7 @@ class UserController extends Controller
 					$user = User::find($user[0]->id);
 					$user->update($input);
 					$validator = 'Senha alterada com sucesso!';
-					$unidades  = $this->unidade->all();
+					$unidades  = Unidades::all();
 					return view('auth.login', compact('unidades','user'))						
 						  ->withErrors($validator)
 						  ->withInput(session()->flashInput($request->input()));								
@@ -222,58 +239,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
 		$input = $request->all();
+		$unidades = Unidades::all();
 		$validator = Validator::make($request->all(), [
 			'name'     		   => 'required',
             'email'    		   => 'required|email|unique:users,email',
+			'unidade_id'       => 'required|max:255',
             'password' 		   => 'required|same:password_confirmation',
-			'password_confirmation' => 'required',
-			'funcao' => 'required'
+			'password_confirmation' => 'required'
     	]);			 
 		if ($validator->fails()) {
-			return view('users/users_cadastro_novo')
+			return view('users/novo_users', compact('unidades'))
 					  ->withErrors($validator)
                       ->withInput(session()->flashInput($request->input()));						
 		} else {
-			$missing = array();
-			$missing2 = array();
-			for($a = 1; $a <= 8; $a++){
-				if(!empty($input['unidade_'.$a])){
-					$missing[] = $a;
-				}
-				if(!empty($input['unidade_abertura_'.$a])){
-					$missing2[] = $a;
-				}
-			}
-			if( is_array($missing) && count($missing) > 0 ) {
-				$result = '';
-				$total = count($missing) - 1;
-				for($i = 0; $i <= $total; $i++){ 
-					$result .= $missing[$i];
-					if($i < $total)
-						$result .= ", ";
-				}
-			} else {
-				$result = "";
-			}
-			if( is_array($missing2) && count($missing2) > 0 ) {
-				$result2 = '';
-				$total2 = count($missing2) - 1;
-				for($i = 0; $i <= $total2; $i++){ 
-					$result2 .= $missing2[$i];
-					if($i < $total2)
-						$result2 .= ", ";
-				}
-			} else {
-				$result2 = "";
-			}
-			$input['unidade']  		   = $result;
-			$input['unidade_abertura'] = $result2; 
 			$input['password'] = Hash::make($input['password']);
 			$user = User::create($input);
 			$validator = 'Usuário cadastrado com sucesso!';
-			$unidades  = Unidade::all();
+			$unidades  = Unidades::all();
 			$users     = User::all();
-			return view('users/users_cadastro', compact('users'))
+			return view('users/cadastro_users', compact('users','unidades'))
 					  ->withErrors($validator)
                       ->withInput(session()->flashInput($request->input()));						
 		}
@@ -297,55 +281,20 @@ class UserController extends Controller
     {
         $input = $request->all();
 		$validator = Validator::make($request->all(), [
-            'name'   => 'required',
-            'email'  => 'required|email',
-			'funcao' => 'required'
+            'name'  => 'required',
+            'email' => 'required|email'
         ]);
 		if($validator->fails()) {
 			$users = User::where('id',$id)->get();
-			return view('users/users_cadastro_alterar', compact('users'))
+			return view('users/alterar_users', compact('users'))
 			->withErrors($validator)
 			->withInput(session()->flashInput($request->input()));						
 		} else {
-			$missing = array();
-			$missing2 = array();
-			for($a = 1; $a <= 8; $a++){
-				if(!empty($input['unidade_'.$a])){
-					$missing[] = $a;
-				}
-				if(!empty($input['unidade_abertura_'.$a])){
-					$missing2[] = $a;
-				}
-			}
-			if( is_array($missing) && count($missing) > 0 ) {
-				$result = '';
-				$total = count($missing) - 1;
-				for($i = 0; $i <= $total; $i++){ 
-					$result .= $missing[$i];
-					if($i < $total)
-						$result .= ", ";
-				}
-			} else {
-				$result = "";
-			}
-			if( is_array($missing2) && count($missing2) > 0 ) {
-				$result2 = '';
-				$total2 = count($missing2) - 1;
-				for($i = 0; $i <= $total2; $i++){ 
-					$result2 .= $missing2[$i];
-					if($i < $total2)
-						$result2 .= ", ";
-				}
-			} else {
-				$result2 = "";
-			}
-			$input['unidade']  		   = $result;
-			$input['unidade_abertura'] = $result2; 
 			$user = User::find($id);
 			$user->update($input);
 			$users = User::all();
 			$validator = "Usuário alterado com sucesso!!";
-			return view('users/users_cadastro', compact('users'))
+			return view('users/cadastro_users', compact('users'))
 				->withErrors($validator)
 				->withInput(session()->flashInput($request->input()));						
 		}
@@ -367,9 +316,9 @@ class UserController extends Controller
 			$input['password'] = Hash::make($input['password']); 
 			$users = User::find($id);
 			$users->update($input);
-			$users = User::where('id',$id)->get();
+			$users = User::where('id',$id)->get(); 
 			$validator = "Senha alterada com sucesso!!";
-			return redirect()->route('alterarUsuario',[$id])
+			return redirect()->route('cadastroUsuarioAlterar',[$id])
 					->withErrors($validator)
 					->with('users','validator');
 		}	

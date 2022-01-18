@@ -10,6 +10,11 @@ class Unidades extends Model
     protected $table = 'unidades';
 
     protected $fillable = [
-
+        'nome',
+        'imagem',
+        'caminho',
+        'sigla',
+        'created_at',
+        'updated_at'
     ];
 }

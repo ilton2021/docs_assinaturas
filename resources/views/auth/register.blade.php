@@ -3,15 +3,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-			@if(Session::has('mensagem'))
-				 @if($text == true)
-				   <div class="container">
-					 <div class="alert alert-danger {{ Session::get ('mensagem')['class'] }} ">
-						  {{ Session::get ('mensagem')['msg'] }}
-					 </div>
-				   </div>
-				  @endif
-			@endif
+            @if ($errors->any())
+                <div class="alert alert-success">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Cadastrar Usuário') }}</div>
 
@@ -44,16 +44,14 @@
                         </div>
 						
 						<div class="form-group row">
-                            <label for="funcao" class="col-md-4 col-form-label text-md-right">{{ __('Função') }}</label>
+                            <label for="funcao" class="col-md-4 col-form-label text-md-right">{{ __('Unidade') }}</label>
                             <div class="col-md-6">
-                                <select id="funcao" class="form-control @error('funcao') is-invalid @enderror" name="funcao">
-								  <option id="funcao" name="funcao" value="Gestor">Gestor</option>
-								  <option id="funcao" name="funcao" value="RH">RH</option>
-								  <option id="funcao" name="funcao" value="Diretoria Técnica">Diretoria Técnica</option>
-								  <option id="funcao" name="funcao" value="Diretoria">Diretoria</option>
-								  <option id="funcao" name="funcao" value="Superintendencia">Superintendência</option>
+                                <select id="unidade_id" class="form-control @error('unidade_id') is-invalid @enderror" name="unidade_id">
+								  @foreach($unidades as $unidade)
+								    <option id="unidade_id" name="unidade_id" value="{{ $unidade->nome }}">{{ $unidade->nome }}</option>
+                                  @endforeach
 								</select>
-                                @error('funcao')
+                                @error('unidade_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

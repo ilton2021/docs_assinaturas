@@ -67,7 +67,7 @@
       @endif	  
 		<div class="container d-flex justify-content-between" style="margin-left: -10px;">
          <div class="row"> 
-         <form action="" method="post">
+         <form action="{{ route('validarDocumentos') }}" method="post">
 	     <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <table class="table table-sm table-bordered" style="font-size: 12px;">
             <?php $qtdApr = sizeof($aprovacao); ?>

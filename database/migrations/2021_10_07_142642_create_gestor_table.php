@@ -19,10 +19,15 @@ class CreateGestorTable extends Migration
             $table->string('email');
             $table->string('cpf');
             $table->string('cargo');
+            $table->string('matricula');
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')->references('id')->on('cargos');
             $table->unsignedBigInteger('funcao_id');
             $table->foreign('funcao_id')->references('id')->on('funcao');
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
