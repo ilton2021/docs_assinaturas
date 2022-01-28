@@ -39,12 +39,21 @@
                                     </tr>
                                     </thead>
                                     <tr> 
-                                      <td> Nome do Documento: </td>
+                                      <td> Número do Documento: </td>
                                       <td> <input type="text" id="nome" name="nome" class="form-control" required="true">  </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Tipo de Documento:</td>
+                                      <td>
+                                        <select id="tipo" name="tipo" class="form-control">
+                                          <option id="tipo" name="tipo" value="1">Nota Fiscal</option>
+                                          <option id="tipo" name="tipo" value="2">Serviço/Produto</option>
+                                        </select>
+                                      </td>
                                     </tr>
                                     <tr> 
                                       <td> Documento: </td>
-                                      <td> <input type="file" id="imagem" name="imagem" class="form-control" required="true">  </td>
+                                      <td> <b>Favor anexar um único pdf com uma ou mais folhas</b> <input type="file" id="imagem" name="imagem" class="form-control" required="true">  </td>
                                     </tr>
                                     <tr> 
                                       <td> Unidade do Documento: </td>

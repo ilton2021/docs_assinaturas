@@ -40,8 +40,22 @@
                                     </thead>
                                     @foreach($documentos as $docs)
                                     <tr> 
-                                      <td> Nome do Documento: </td>
+                                      <td> Número do Documento: </td>
                                       <td> <input type="text" id="nome" name="nome" class="form-control" required="true" value="<?php echo $docs->nome; ?>"> </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Tipo de Documento:</td>
+                                      <td>
+                                        <select id="tipo" name="tipo" class="form-control">
+                                          @if($docs->tipo == 1)
+                                          <option id="tipo" name="tipo" value="1" selected>Nota Fiscal</option>
+                                          <option id="tipo" name="tipo" value="2">Serviço/Produto</option>
+                                          @else
+                                          <option id="tipo" name="tipo" value="1">Nota Fiscal</option>
+                                          <option id="tipo" name="tipo" value="2" selected>Serviço/Produto</option>
+                                          @endif
+                                        </select>
+                                      </td>
                                     </tr>
                                     <tr> 
                                       <td> Documento: </td>

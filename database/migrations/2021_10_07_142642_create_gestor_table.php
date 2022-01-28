@@ -20,6 +20,8 @@ class CreateGestorTable extends Migration
             $table->string('cpf');
             $table->string('cargo');
             $table->string('matricula');
+            $table->string('carimbo');
+            $table->string('caminho');
             $table->unsignedBigInteger('cargo_id');
             $table->foreign('cargo_id')->references('id')->on('cargos');
             $table->unsignedBigInteger('funcao_id');
@@ -28,6 +30,8 @@ class CreateGestorTable extends Migration
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('gestor_imediato_id');
+            $table->foreign('gestor_imediato_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

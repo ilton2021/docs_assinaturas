@@ -19,6 +19,8 @@ class Documentos extends Model
         'fornecedor_id',
         'unidade_id',
         'gestor_id',
+        'aprovada',
+        'concluida',
         'created_at',
         'updated_at'
     ];

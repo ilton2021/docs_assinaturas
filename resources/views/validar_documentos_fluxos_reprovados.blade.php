@@ -15,19 +15,6 @@
 			width: 300px;
 		}
         </style>
-        <script type="text/javascript">
-            function habilitar(valor) {
-		        var status = document.getElementById('checkAll1').checked;  
-                <?php $qtd = sizeof($aprovacao);  
-                for($a = 1; $a <= $qtd; $a++){ ?>
-                    if(status == true){ 
-                        document.getElementById('check_<?php echo $a ?>').checked = true;
-                    } else {
-                        document.getElementById('check_<?php echo $a ?>').checked = false;
-                    }
-                <?php } ?>
-            }
-        </script>
     </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 rounded fixed-top">
@@ -36,10 +23,12 @@
 				<h4 class="d-none d-sm-block">Documentos - Assinaturas HCPGESTÃO</h4>
 			</span>
     </nav>
+        
     <section id="unidades">
     	<p align="right"><a href="{{ url('/home') }}" class="btn btn-warning btn-sm" style="color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a></p>
         <div class="row">
-            <div class="col-12 text-center">
+        
+        <div class="col-12 text-center">
                 <span><h3 style="color:#65b345; margin-bottom:0px;">Escolha uma opção:</h3></span>
             </div>
         </div>
@@ -65,27 +54,23 @@
           </ul>
         </div>
       @endif	  
-		<div class="container d-flex justify-content-between" style="margin-left: -10px;">
+		<div class="container d-flex justify-content-between" style="margin-left: 10px;">
          <div class="row"> 
-         <form action="{{ route('validarDocumentos') }}" method="post">
-	     <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <table class="table table-sm table-bordered" style="font-size: 12px;">
             <?php $qtdApr = sizeof($aprovacao); ?>
               @if($qtdApr > 0) 
-              <tr><td colspan="12"><br><b><font size="04px">Documentos Validação:</font></b></td></tr>
+              <tr><td colspan="10"><br><b><font size="04px">Documentos Validação:</font></b></td></tr>
               <tr>
-              <td><center>SELECIONAR <br><input onclick="habilitar('sim')" type="checkbox" id="checkAll1" name="checkAll1" /></center> </td>
                 <td><center>UNIDADE</center></td>  
                 <td><center>NOME DOCUMENTO</center></td>
                 <td><center>NÚMERO DOCUMENTO</center></td>
                 <td><center>FLUXO</center></td>
-                <td ><center>ARQUIVO</center></td>
-                <td ><center>VISUALIZAR</center></td>
+                <td><center>ARQUIVO</center></td>
+                <td><center>STATUS</center></td>
               </tr> <?php $a = 1; ?>
              	@foreach($aprovacao as $docs)
               	<tr> 
-                 <td> <br><center> <input type="checkbox" id="check_<?php echo $a ?>" name="check_<?php echo $a ?>"  /> </center> </td>
-				 <td> <br><center> <b> @if($docs->unidade_id == 1) <?php echo "HCP GESTÃO"; ?>  
+              	 <td> <br><center> <b> @if($docs->unidade_id == 1) <?php echo "HCP GESTÃO"; ?>  
                       @elseif($docs->undDoc == 2) <?php echo "HMR"; ?>  
                       @elseif($docs->undDoc == 3) <?php echo "BELO JARDIM"; ?>  
                       @elseif($docs->undDoc == 4) <?php echo "ARCOVERDE"; ?>  
@@ -96,7 +81,6 @@
                       @endif </b> </center> </td>
                  <td title="<?php echo $docs->nomeDoc; ?>"> <p><center>  {{ $docs->nomeDoc }} </center></p></td> 
                  <td title="<?php echo $docs->numeroDoc; ?>"> <p><center> {{ $docs->numeroDoc }} </center> </p>  </td>
-                 <input hidden type="text" id="id_documento_<?php echo $a ?>" name="id_documento_<?php echo $a ?>" value="<?php echo $docs->documento_id; ?>" /> 
                  <td> <?php $qtdA = sizeof($aprovacoes); ?>
                  <center>
                  <?php for($ap = 0; $ap < $qtdA; $ap++) { ?>
@@ -111,7 +95,23 @@
                  <?php } ?>                
                  </td>
                  <td><p><center> <a href="{{asset('storage')}}/{{$docs->caminho}}" target="_blank" class="btn btn-sm btn-success" width="100px">Arquivo</a></center></p></td>
-                 <td><p><center> <a href="{{ route('validar_fluxo', $docs->documento_id) }}" class="btn btn-dark btn-sm">Visualizar</a> </center></p></td>
+                 <td> <?php $qtdA = sizeof($aprovacoes); ?>
+                 <center>
+                 <?php for($ap = 0; $ap < $qtdA; $ap++) { ?>
+                 @if($aprovacoes[$ap]->documento_id == $docs->documento_id)
+                  <?php $idG = $aprovacoes[$ap]->gestor_anterior_id; ?> 
+                      @if($aprovacoes[$ap]->fluxo == 2) 
+                        <center><font color="green"><b>APROVAÇÃO FINAL</b></font></center> 
+                      @else
+                        @if($aprovacoes[$ap]->resposta == 1)
+                        <center><font color="blue"><b>APROVADO</b></font></center> 
+                        @else
+                        <center><font color="red"><b>REPROVADO</b></font></center> 
+                        @endif
+                      @endif  
+                 @endif 
+                 <?php } ?>                
+                 </td>
                  </td> 
                  <?php $a += 1; ?>
                 @endforeach
@@ -121,7 +121,6 @@
           <table style="width: 1340px;">
             <tr>
                 <td> <a href="{{ url('/home') }}" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a>  </td>
-                <td> <p align="right"> <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="APROVAR" id="Salvar" name="Salvar" /> </p> </td> </tr>
           </table>
           <input hidden type="text" id="resposta" name="resposta" value="" /> 
           <input hidden type="text" id="data_aprovacao" name="data_aprovacao" value="" /> 

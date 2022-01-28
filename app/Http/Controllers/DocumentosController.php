@@ -76,6 +76,7 @@ class DocumentosController extends Controller
 							}
 						}
 					}
+					$input['concluida'] = 0;
 					$documento    = Documentos::create($input);
 					$loggers      = Loggers::create($input);
 					$documentos   = Documentos::all();
@@ -96,19 +97,29 @@ class DocumentosController extends Controller
 
     public function alterarDoc($id, Request $request)
     {
-		$aprovacao    = Aprovacao::where('documento_id',$id)->get();
-		$documentos   = Documentos::all();
+		$aprovacao  = Aprovacao::where('documento_id',$id)->get();
+		$id_ultimo  = DB::table('aprovacao')->where('documento_id',$id)->max('id');
+		$aprov  	= Aprovacao::where('id',$id_ultimo)->get();
+		$documentos = Documentos::all();
 		$fornecedores = Fornecedores::all();
+		$qtd = sizeof($aprovacao);
 		$qtd = sizeof($aprovacao); 
 		if($qtd > 0) {
-			$validator = 'Este Documento está em Aprovação! Você não pode alterá-lo!!!';
-			return view('documentos/cadastro_documento', compact('documentos','fornecedores'))
-					  ->withErrors($validator)
-					  ->withInput(session()->flashInput($request->input()));
+			if ($aprov[0]->gestor_id == Auth::user()->id && $aprov[0]->fluxo == 1) {
+				$documentos = Documentos::where('id',$id)->get();
+				$unidades = Unidades::all();
+				return view('documentos/alterar_documento', compact('documentos','unidades','fornecedores'));
+			} else {
+				$fornecedores = Fornecedores::all();
+				$validator = 'Este Documento está em Aprovação! Você não pode alterá-lo!!!';
+				return view('documentos/cadastro_documento', compact('documentos','fornecedores'))
+						  ->withErrors($validator)
+						  ->withInput(session()->flashInput($request->input()));
+			}
 		} else {
 			$documentos = Documentos::where('id',$id)->get();
-			$unidades   = Unidades::all();
-			return view('documentos/alterar_documento', compact('documentos','unidades','fornecedores'));
+			$unidades = Unidades::all();
+			return view('documentos/alterar_documento', compact('documentos','unidades','fornecedores'));;
 		}
     }
 
@@ -150,7 +161,8 @@ class DocumentosController extends Controller
 						$image_path = public_path().'/storage/'.$data->caminho;
 						unlink($image_path);
 					} 
-					$input['tipo'] = '1'; 
+					$input['tipo'] 		= '1'; 
+					$input['concluida'] = 0;
 					$documentos   = Documentos::find($id);
 					$documentos   = $documentos->update($input);
 					$loggers      = Loggers::create($input);
@@ -178,12 +190,18 @@ class DocumentosController extends Controller
 		$documentos = Documentos::all();
 		$qtd = sizeof($aprovacao);
 		if($qtd > 0) {
-			$fornecedores = Fornecedores::all();
-			$validator = 'Este Documento está em Aprovação! Você não pode excluí-lo!!!';
-			return view('documentos/cadastro_documento', compact('documentos','fornecedores'))
-					  ->withErrors($validator)
-					  ->withInput(session()->flashInput($request->input()));
-		} else if ($aprov[0]->gestor_id == Auth::user()->id && $qtd > 0) {
+			if ($aprov[0]->gestor_id == Auth::user()->id && $aprov[0]->fluxo == 1) {
+				$documentos = Documentos::where('id',$id)->get();
+				$unidades = Unidades::all();
+				return view('documentos/excluir_documento', compact('documentos','unidades'));
+			} else {
+				$fornecedores = Fornecedores::all();
+				$validator = 'Este Documento está em Aprovação! Você não pode excluí-lo!!!';
+				return view('documentos/cadastro_documento', compact('documentos','fornecedores'))
+						  ->withErrors($validator)
+						  ->withInput(session()->flashInput($request->input()));
+			}
+		} else {
 			$documentos = Documentos::where('id',$id)->get();
 			$unidades = Unidades::all();
 			return view('documentos/excluir_documento', compact('documentos','unidades'));
@@ -193,11 +211,13 @@ class DocumentosController extends Controller
 	public function destroyDoc($id, Request $request)
     {
         $input = $request->all();
-        $documentos = Documentos::find($id);
-        $documentos = $documentos->delete($input);
+        $data  = Documentos::find($id);
+		$image_path = public_path().'/storage/'.$data->caminho;
+        unlink($image_path);
+        $data->delete();
 		$loggers    = Loggers::create($input);
         $documentos = Documentos::all();
-        $validator = "Documento Excluído com Sucesso!!";
+        $validator  = "Documento Excluído com Sucesso!!";
         return view('documentos/cadastro_documento', compact('documentos'))
 				  ->withErrors($validator)
                   ->withInput(session()->flashInput($request->input()));

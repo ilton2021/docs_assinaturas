@@ -40,6 +40,14 @@ Route::post('nvalidarFluxo/{id}', [App\Http\Controllers\HomeController::class, '
 Route::get('validarDocs', [App\Http\Controllers\HomeController::class, 'validarDocs'])->name('validarDocs');
 Route::post('validarDocs', [App\Http\Controllers\HomeController::class, 'validarDocumentos'])->name('validarDocumentos');
 Route::get('visualizarFluxos', [App\Http\Controllers\HomeController::class, 'visualizarFluxos'])->name('visualizarFluxos');
+
+Route::get('visualizarFluxos/documentosCriados', [App\Http\Controllers\HomeController::class, 'documentosCriados'])->name('documentosCriados');
+Route::get('visualizarFluxos/documentosCriados/pesquisa', [App\Http\Controllers\HomeController::class, 'pesquisaDocCriados'])->name('pesquisaDocCriados');
+Route::post('visualizarFluxos/documentosCriados/pesquisa', [App\Http\Controllers\HomeController::class, 'pesquisaDocCriados'])->name('pesquisaDocCriados');
+Route::get('visualizarFluxos/documentosAprovados', [App\Http\Controllers\HomeController::class, 'documentosAprovados'])->name('documentosAprovados');
+Route::get('visualizarFluxos/documentosAprovados/pesquisa', [App\Http\Controllers\HomeController::class, 'pesquisaDocAprovados'])->name('pesquisaDocAprovados');
+Route::post('visualizarFluxos/documentosAprovados', [App\Http\Controllers\HomeController::class, 'pesquisaDocAprovados'])->name('pesquisaDocAprovados');
+
 //Unidades
 Route::get('unidades/cadastro', [App\Http\Controllers\UnidadesController::class, 'cadastroUnd'])->name('cadastroUnd');
 Route::get('unidades/cadastro/novo', [App\Http\Controllers\UnidadesController::class, 'novaUnd'])->name('novaUnd');

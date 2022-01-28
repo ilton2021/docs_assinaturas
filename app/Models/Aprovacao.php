@@ -19,6 +19,7 @@ class Aprovacao extends Model
         'gestor_anterior_id',
         'unidade_id',
         'fluxo',
+        'resposta',
         'created_at',
         'updated_at'
     ];

@@ -30,8 +30,9 @@
 			<table class="table table-sm " id="my_table">
 			    <thead class="bg-success">
 					<tr>
-						<th scope="col" width="500px">Nome</th>
+						<th scope="col" width="500px">Número</th>
 						<th scope="col">Fornecedor</th>
+						<th scope="col">Tipo</th>
 						<th scope="col">Unidade</th>
 						<th scope="col"><center>Alterar</center></th>
 						<th scope="col"><center>Excluir</center></th>
@@ -46,6 +47,11 @@
 						<td>{{ $fornecedor->nome }}</td>
 						@endif
 						@endforeach
+						@if($documento->tipo == 1)
+						<td>{{ 'NOTA FISCAL' }}</td>
+						@else
+						<td>{{ 'SERVIÇO/PRODUTO' }}</td>
+						@endif
 						@if($documento->unidade_id == 1)
 						<td>{{ 'HCPGESTÃO' }}</td>
 						@elseif($documento->unidade_id == 2)

@@ -27,6 +27,8 @@ class CreateAprovacaoTable extends Migration
             $table->foreign('gestor_anterior_id')->references('id')->on('gestor');
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
+            $table->string('fluxo');
+            $table->string('resposta');
             $table->timestamps();
         });
     }

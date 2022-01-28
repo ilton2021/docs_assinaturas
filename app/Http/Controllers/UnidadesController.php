@@ -33,7 +33,7 @@ class UnidadesController extends Controller
 			if($extensao == 'jpg' || $extensao == 'jpeg' || $extensao == 'png') {
 				$validator = Validator::make($request->all(), [
 					'nome'  => 'required|max:255',
-                    'sigla' => 'required|max:20'
+                    'sigla' => 'required|max:10'
 				]);
 				if ($validator->fails()) {
 					return view('unidades/nova_unidade')
