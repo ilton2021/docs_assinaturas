@@ -57,6 +57,10 @@
 						<td>Unidades: </td>
 						<td> <a href="{{ route('cadastroUnd') }}" class="btn btn-sm btn-info">Cadastrar Unidade </a></td>
 					</tr>
+					<tr>
+						<td>Respostas:</td>
+						<td> <a href="{{ route('cadastroRespostas') }}" class="btn btn-sm btn-info">Cadastrar Respostas</a></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

@@ -20,7 +20,7 @@ class CargosController extends Controller
 
     public function storeCarg(Request $request){
         $input = $request->all();
-       	$validator = Validator::make($request->all(), [
+       	$validator = Validator::make($request->all(), [    
 		    'nome' => 'required|max:255'
 		]);
 		if ($validator->fails()) {

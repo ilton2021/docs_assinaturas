@@ -11,7 +11,7 @@
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             <div class="max-w-12xl mx-auto sm:px-8 lg:px-8">
                 <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <img src="{{ asset('imagens/gestao.png') }}" width="100" height="50" style="margin-left: 1080px;" />
+                    <img src="{{ asset('imagens/gestao.png') }}" width="100" height="50" style="margin-left: 1075px;" />
                 </div>
                 @if ($errors->any())
                   <div class="alert alert-success">
@@ -39,15 +39,16 @@
                                     </tr>
                                     </thead>
                                     <tr> 
-                                      <td> Número do Documento: </td>
-                                      <td> <input type="text" id="nome" name="nome" class="form-control" required="true">  </td>
+                                      <td> Código do Documento: </td>
+                                      <td> <input type="number" id="nome" name="nome" class="form-control" required="true" value="{{ old('nome') }}">  </td>
                                     </tr>
                                     <tr>
                                       <td>Tipo de Documento:</td>
                                       <td>
                                         <select id="tipo" name="tipo" class="form-control">
-                                          <option id="tipo" name="tipo" value="1">Nota Fiscal</option>
-                                          <option id="tipo" name="tipo" value="2">Serviço/Produto</option>
+                                          <option id="tipo" name="tipo" value="">Selecione..</option>
+                                          <option id="tipo" name="tipo" value="1">NOTA FISCAL</option>
+                                          <option id="tipo" name="tipo" value="2">SERVIÇO/PRODUTO</option>
                                         </select>
                                       </td>
                                     </tr>
@@ -59,6 +60,7 @@
                                       <td> Unidade do Documento: </td>
                                       <td> 
                                           <select id="unidade_id" name="unidade_id" class="form-control" required="true">  
+                                            <option id="unidade_id" name="unidade_id" value="">Selecione..</option>
                                            @foreach($unidades as $unds)
                                             <option id="unidade_id" name="unidade_id" value="<?php echo $unds->id; ?>">{{ $unds->nome }}</option>
                                            @endforeach
@@ -69,12 +71,77 @@
                                         <td>Fornecedor:</td>
                                         <td>
                                             <select id="fornecedor_id" name="fornecedor_id" class="form-control">
+                                              <option id="fornecedor_id" name="fornecedor_id" value="">Selecione..</option>
                                               @foreach($fornecedores as $fornecedor)
                                                 <option id="fornecedor_id" name="fornecedor_id" value="<?php echo $fornecedor->id; ?>">{{ $fornecedor->nome }}</option>
                                               @endforeach
                                             </select>
                                         </td>
                                     </tr>
+                                    </table>
+                                    <table class="table table-sm table-bordered" style="width:1000px; align: center;">
+                                      <tr>
+                                        <td colspan="2"><center><b>DEFINIR FLUXO:</b></center></td>
+                                      </tr>
+                                      <tr>
+                                        <td><center>Setor:</center></td>
+                                        <td><center>Gestor / E-mail:</center></td>
+                                      </tr>
+                                      <tr>
+                                        <td> <input type="text" class="form-control" id="funcao" name="funcao" value="GESTOR" readonly /> </td>
+                                        <td>
+                                          <select id="gestor" name="gestor" class="form-control">
+                                           <option id="gestor" name="gestor" value="">Selecione..</option>
+                                           @foreach($gestor as $gestor)
+                                            <option id="gestor" name="gestor" value="">{{ $gestor->nome }} / {{ $gestor->email }}</option>
+                                           @endforeach
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td> <input type="text" class="form-control" id="funcao" name="funcao" value="GESTOR UNIDADE" readonly /> </td>
+                                        <td>
+                                          <select id="gestorUnd" name="gestorUnd" class="form-control">
+                                           <option id="gestorUnd" name="gestorUnd" value="">Selecione..</option>
+                                           @foreach($gestorUnd as $gestor)
+                                            <option id="gestorUnd" name="gestorUnd" value="">{{ $gestor->nome }} / {{ $gestor->email }}</option>
+                                           @endforeach
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td> <input type="text" class="form-control" id="funcao" name="funcao" value="PRESTAÇÃO DE CONTAS" readonly /> </td>
+                                        <td>
+                                          <select id="gestorPrC" name="gestorPrC" class="form-control">
+                                           <option id="gestorPrC" name="gestorPrC" value="">Selecione..</option>
+                                           @foreach($gestorPrC as $gestor)
+                                            <option id="gestorPrC" name="gestorPrC" value="">{{ $gestor->nome }} / {{ $gestor->email }}</option>
+                                           @endforeach
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td> <input type="text" class="form-control" id="funcao" name="funcao" value="CONTABILIDADE" readonly /> </td>
+                                        <td>
+                                          <select id="gestorCon" name="gestorCon" class="form-control">
+                                           <option id="gestorCon" name="gestorCon" value="">Selecione..</option>
+                                           @foreach($gestorCon as $gestor)
+                                            <option id="gestorCon" name="gestorCon" value="">{{ $gestor->nome }} / {{ $gestor->email }}</option>
+                                           @endforeach
+                                          </select>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td> <input type="text" class="form-control" id="funcao" name="funcao" value="FINANCEIRO" readonly /> </td>
+                                        <td>
+                                          <select id="gestorFin" name="gestorFin" class="form-control">
+                                           <option id="gestorFin" name="gestorFin" value="">Selecione..</option>
+                                           @foreach($gestorFin as $gestor)
+                                            <option id="gestorFin" name="gestorFin" value="">{{ $gestor->nome }} / {{ $gestor->email }}</option>
+                                           @endforeach
+                                          </select>
+                                        </td>
+                                      </tr>
                                     </table>
                                     <table>
                                     <tr>
@@ -84,6 +151,7 @@
                                     <td hidden><input hidden type="text" id="tipo" name="tipo" value="" /> </td>
                                     <td hidden><input hidden type="text" id="user_id" name="user_id" value="<?php echo Auth::user()->id; ?>" /> </td>
                                     <td hidden><input hidden type="text" id="acao" name="acao" value="cadastrar_novo_documento" /> </td>
+                                    <td hidden><input hidden type="date" id="data_prevista" name="data_prevista" class="form-control" value="<?php echo date('Y-m-d', strtotime('now')); ?>" /></td>
                                     </tr>
                                     </table>
                                     </form>

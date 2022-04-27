@@ -92,6 +92,14 @@ Route::get('funcoes/cadastro/alterar/{id}', [App\Http\Controllers\FuncaoControll
 Route::post('funcoes/cadastro/alterar/{id}', [App\Http\Controllers\FuncaoController::class, 'updateFuncoes'])->name('updateFuncoes');
 Route::get('funcoes/cadastro/excluir/{id}', [App\Http\Controllers\FuncaoController::class, 'excluirFuncoes'])->name('excluirFuncoes');
 Route::post('funcoes/cadastro/excluir/{id}', [App\Http\Controllers\FuncaoController::class, 'deleteFuncoes'])->name('deleteFuncoes');
+//Respostas
+Route::get('respostas/cadastro', [App\Http\Controllers\RespostasController::class, 'cadastroRespostas'])->name('cadastroRespostas');
+Route::get('respostas/cadastro/novo', [App\Http\Controllers\RespostasController::class, 'novaRespostas'])->name('novaRespostas');
+Route::post('respostas/cadastro/novo', [App\Http\Controllers\RespostasController::class, 'storeRespostas'])->name('storeRespostas');
+Route::get('respostas/cadastro/alterar/{id}', [App\Http\Controllers\RespostasController::class, 'alterarRespostas'])->name('alterarRespostas');
+Route::post('respostas/cadastro/alterar/{id}', [App\Http\Controllers\RespostasController::class, 'updateRespostas'])->name('updateRespostas');
+Route::get('respostas/cadastro/excluir/{id}', [App\Http\Controllers\RespostasController::class, 'excluirRespostas'])->name('excluirRespostas');
+Route::post('respostas/cadastro/excluir/{id}', [App\Http\Controllers\RespostasController::class, 'deleteRespostas'])->name('deleteRespostas');
 //Cargos
 Route::get('cargos/cadastro', [App\Http\Controllers\CargosController::class, 'cadastroCarg'])->name('cadastroCarg');
 Route::get('cargos/cadastro/novo', [App\Http\Controllers\CargosController::class, 'novoCarg'])->name('novoCarg');

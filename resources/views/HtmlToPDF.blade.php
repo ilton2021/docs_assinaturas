@@ -37,6 +37,5 @@
  @endforeach
  
 </table>
-
 </body>
 </html>

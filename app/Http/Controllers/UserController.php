@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Unidades;
 use App\Models\AlterarSenha;
+use App\Models\Funcao;
 use Spatie\Permission\Models\Role;
 use DB;
 use Str;
@@ -43,7 +44,8 @@ class UserController extends Controller
 	public function cadastroUsuarioNovo()
 	{
 		$unidades = Unidades::all();
-		return view('users/novo_users', compact('unidades'));
+		$funcoes = Funcao::all();
+		return view('users/novo_users', compact('unidades','funcoes'));
 	}
 
 	public function cadastroUsuarioAlterar($id)
@@ -244,6 +246,7 @@ class UserController extends Controller
 			'name'     		   => 'required',
             'email'    		   => 'required|email|unique:users,email',
 			'unidade_id'       => 'required|max:255',
+			'funcao_id'        => 'required',
             'password' 		   => 'required|same:password_confirmation',
 			'password_confirmation' => 'required'
     	]);			 

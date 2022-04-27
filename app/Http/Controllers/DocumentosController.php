@@ -8,10 +8,13 @@ use App\Models\Unidades;
 use App\Models\Fornecedores;
 use App\Models\Loggers;
 use App\Models\Aprovacao;
+use App\Models\Funcao;
+use App\Models\FluxoAssinaturas;
 use Auth;
 use App\Models\Gestor;
 use Validator;
 use DB;
+use Http;
 
 class DocumentosController extends Controller
 {
@@ -24,21 +27,28 @@ class DocumentosController extends Controller
 
     public function novoDoc()
     {
-        $unidades = Unidades::all();
+        $unidades 	  = Unidades::all();
 		$fornecedores = Fornecedores::all();
-        return view('documentos/novo_documento', compact('unidades','fornecedores'));
+		$gestor    = Gestor::where('funcao_id',2)->get();
+		$gestorUnd = Gestor::where('funcao_id',6)->get();
+		$gestorPrC = Gestor::where('funcao_id',3)->get();
+		$gestorCon = Gestor::where('funcao_id',4)->get();
+		$gestorFin = Gestor::where('funcao_id',5)->get();
+        return view('documentos/novo_documento', compact('unidades','fornecedores','gestor','gestorUnd','gestorPrC','gestorCon','gestorFin'));
     }
 
     public function storeDoc(Request $request)
     {
+		$unidades 	  = Unidades::all();
+		$fornecedores = Fornecedores::all();
         $input = $request->all();
         $input['tipo'] 		= 1;
 		$input['gestor_id'] = 0;
-		$nome = $_FILES['imagem']['name'];
+		$nome 	  = $_FILES['imagem']['name'];
 		$extensao = pathinfo($nome, PATHINFO_EXTENSION);
 		if($request->file('imagem') === NULL) {	
 			$validator = 'Selecione um documento!';
-			return view('documentos/novo_documento', compact('unidades'))
+			return view('documentos/novo_documento', compact('unidades','fornecedores'))
 					->withErrors($validator)
 					->withInput(session()->flashInput($request->input()));
 		} else {
@@ -47,7 +57,7 @@ class DocumentosController extends Controller
 					'nome'  => 'required|max:255',
 				]);
 				if ($validator->fails()) {
-					return view('documentos/novo_documento', compact('unidades'))
+					return view('documentos/novo_documento', compact('unidades','fornecedores'))
 						->withErrors($validator)
 						->withInput(session()->flashInput($request->input()));
 				}else {
@@ -76,9 +86,119 @@ class DocumentosController extends Controller
 							}
 						}
 					}
+					
+
+					if(!empty($input['email1'])) {
+						$email   = $input['email1'];
+						$gestor1 = Gestor::where('email',$email)->where('funcao_id',2)->get();
+						$qtd1 	 = sizeof($gestor1);
+						if($qtd1 == 0) {
+							$validator = 'O Usuário deste Gestor não foi cadastrado!';
+							return view('documentos/novo_documento', compact('unidades','fornecedores'))
+								->withErrors($validator)
+								->withInput(session()->flashInput($request->input()));
+						}
+					} else { $qtd = 0; }
+
+					if(!empty($input['email2'])) {
+						$email   = $input['email2'];
+						$gestor2 = Gestor::where('email',$email)->where('funcao_id',6)->get();
+						$qtd2 	 = sizeof($gestor2);
+						if($qtd2 == 0) {
+							$validator = 'O Usuário deste Gestor da Unidade não foi cadastrado!';
+							return view('documentos/novo_documento', compact('unidades','fornecedores'))
+								->withErrors($validator)
+								->withInput(session()->flashInput($request->input()));
+						}
+					} else { $qtd2 = 0; }
+
+					if(!empty($input['email3'])) {
+						$email   = $input['email3'];
+						$gestor3 = Gestor::where('email',$email)->where('funcao_id',3)->get();
+						$qtd3 	 = sizeof($gestor3);
+						if($qtd3 == 0) {
+							$validator = 'O Usuário deste Gestor da Prestação de Contas não foi cadastrado!';
+							return view('documentos/novo_documento', compact('unidades','fornecedores'))
+								->withErrors($validator)
+								->withInput(session()->flashInput($request->input()));
+						}
+					} else { $qtd3 = 0; }
+
+					if(!empty($input['email4'])) {
+						$email   = $input['email4'];
+						$gestor4 = Gestor::where('email',$email)->where('funcao_id',4)->get();
+						$qtd4 	 = sizeof($gestor4);
+						if($qtd4 == 0) {
+							$validator = 'O Usuário deste Gestor da Controladoria não foi cadastrado!';
+							return view('documentos/novo_documento', compact('unidades','fornecedores'))
+								->withErrors($validator)
+								->withInput(session()->flashInput($request->input()));
+						}
+					} else { $qtd4 = 0; }
+
+					if(!empty($input['email5'])) {
+						$email   = $input['email5'];
+						$gestor5 = Gestor::where('email',$email)->where('funcao_id',5)->get();
+						$qtd5    = sizeof($gestor5);
+						if($qtd5 == 0) {
+							$validator = 'O Usuário deste Gestor Financeiro não foi cadastrado!';
+							return view('documentos/novo_documento', compact('unidades','fornecedores'))
+								->withErrors($validator)
+								->withInput(session()->flashInput($request->input()));
+						}
+					} else { $qtd5 = 0; }
+
 					$input['concluida'] = 0;
-					$documento    = Documentos::create($input);
-					$loggers      = Loggers::create($input);
+					$input['gestor_id'] = $gestor1[0]->id;
+					$documento = Documentos::create($input);
+					$loggers   = Loggers::create($input);
+
+					$maxId     = DB::table('documentos')->max('id');
+					$documento = Documentos::where('id',$maxId)->get();
+
+					if($qtd1 > 0) {
+						$input['doc_id']  = $documento[0]->id;
+						$input['user_id'] = $gestor1[0]->id;
+						$input['fluxo']   = 0;
+						$fluxo_ass = FluxoAssinaturas::create($input);
+					} 
+					if($qtd2 > 0) {
+						$input['doc_id']  = $documento[0]->id;
+						$input['user_id'] = $gestor2[0]->id;
+						$input['fluxo']   = 0;
+						$fluxo_ass = FluxoAssinaturas::create($input);
+					} 
+					if($qtd3 > 0) {
+						$input['doc_id']  = $documento[0]->id;
+						$input['user_id'] = $gestor3[0]->id;
+						$input['fluxo']   = 0;
+						$fluxo_ass = FluxoAssinaturas::create($input);
+					} 
+					if($qtd4 > 0) {
+						$input['doc_id']  = $documento[0]->id;
+						$input['user_id'] = $gestor4[0]->id;
+						$input['fluxo']   = 0;
+						$fluxo_ass = FluxoAssinaturas::create($input);
+					} 
+					if($qtd5 > 0) {
+						$input['doc_id']  = $documento[0]->id;
+						$input['user_id'] = $gestor5[0]->id;
+						$input['fluxo']   = 0;
+						$fluxo_ass = FluxoAssinaturas::create($input);
+					}
+
+					$hoje = date('Y-m-d', strtotime('now'));
+
+					$input['observacao'] 	  = "Documento no Fluxo!";
+					$input['ativo']      	  = 1;
+					$input['data_aprovacao']  = $hoje;
+					$input['documento_id']    = $input['doc_id'];
+					$input['gestor_anterior_id'] = Auth::user()->id;
+					$input['unidade_id']  	  = $input['unidade_id'];
+					$input['fluxo']    		  = 1;
+					$input['resposta'] 		  = 1;
+					$aprovacao = Aprovacao::create($input);
+
 					$documentos   = Documentos::all();
 					$fornecedores = Fornecedores::all();
                     $validator  = 'Documento Cadastrado com Sucesso!';
@@ -217,8 +337,9 @@ class DocumentosController extends Controller
         $data->delete();
 		$loggers    = Loggers::create($input);
         $documentos = Documentos::all();
+		$fornecedores = Fornecedores::all();
         $validator  = "Documento Excluído com Sucesso!!";
-        return view('documentos/cadastro_documento', compact('documentos'))
+        return view('documentos/cadastro_documento', compact('documentos','fornecedores'))
 				  ->withErrors($validator)
                   ->withInput(session()->flashInput($request->input()));
     }

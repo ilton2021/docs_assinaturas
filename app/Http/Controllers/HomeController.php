@@ -7,10 +7,14 @@ use App\Models\Unidades;
 use App\Models\Documentos;
 use App\Models\Gestor;
 use App\Models\Aprovacao;
+use App\Models\Respostas;
 use Auth;
 use Validator;
 use Mail;
 use DB;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use App\Http\Controllers\convertToString;
 
 class HomeController extends Controller
 {
@@ -99,7 +103,7 @@ class HomeController extends Controller
                 $input['resposta'] = 1;
                 $input['fluxo']    = 1;
                 $email = 'ilton.albuquerque@hcpgestao.org.br';
-                //Assinar Documento
+            
                 if($gestor[0]->funcao_id == 1) {
                     Mail::send([], [], function($m) use ($email,$motivo,$nome,$nomeDoc) { 
                         $m->from('ilton.albuquerque@hcpgestao.org.br', 'Assinatura de Documentos');
@@ -131,13 +135,14 @@ class HomeController extends Controller
 
     public function validar_fluxo($id)
     {
-        $id_Gestor = Auth::user()->id;
-        $gestor    = Gestor::where('id',$id_Gestor)->get();
+        $id_Gestor  = Auth::user()->id;
+        $gestor     = Gestor::where('id',$id_Gestor)->get();
         $id_GestorImediato = $gestor[0]->gestor_imediato_id;
-        $gestor     = Gestor::where('id',$id_GestorImediato)->get();
+        $gestorI    = Gestor::where('id',$id_GestorImediato)->get();
         $documentos = Documentos::where('id',$id)->get();
         $aprovacao  = Aprovacao::where('documento_id',$id)->get();
-        return view('validar_fluxo', compact('documentos','gestor','aprovacao'));
+        $respostas  = Respostas::where('funcao_id',$gestor[0]->funcao_id)->get(); 
+        return view('validar_fluxo', compact('documentos','gestor','aprovacao','respostas'));
     }
 
     public function storeValidar_fluxo($id, Request $request)
@@ -163,12 +168,13 @@ class HomeController extends Controller
         $input['unidade_id']     = $documentos[0]->unidade_id;
         $input['data_aprovacao'] = date('Y-m-d', strtotime('now'));
         $input['data_prevista']  = date('Y-m-d', strtotime($input['data_prevista']));
+       
         $aprovacao = Aprovacao::create($input);
         $nomeDoc   = $documentos[0]->nome;
         $nome      = $input['solicitante'];
         $motivo    = $input['observacao'];
         $email     = 'ilton.albuquerque@hcpgestao.org.br';
-        //Assinar Documento
+        
         if($funcao[0]->funcao_id == '5') {
             Mail::send([], [], function($m) use ($email,$motivo,$nome,$nomeDoc) { 
                 $m->from('ilton.albuquerque@hcpgestao.org.br', 'Assinatura de Documentos');
@@ -316,7 +322,7 @@ class HomeController extends Controller
         $nome      = $gestor[0]->nome;
         $motivo    = $input['observacao'];
         $email     = 'ilton.albuquerque@hcpgestao.org.br';
-        //Assinar Documento
+        
         if(Auth::user()->funcao_id == '5') {
             Mail::send([], [], function($m) use ($email,$motivo,$nomeDoc) { 
                 $m->from('ilton.albuquerque@hcpgestao.org.br', 'Assinatura de Documentos');

@@ -68,6 +68,8 @@
 						<td>{{ 'HSS' }}</td>
 						@elseif($documento->unidade_id == 8)
 						<td>{{ 'HCA' }}</td>
+						@elseif($documento->unidade_id == 9)
+						<td>{{ 'UPA IGARASSU' }}</td>
 						@endif
 						<td><center><a class="btn btn-info btn-sm" href="{{route('alterarDoc', $documento->id)}}" ><i class="fas fa-edit"></i></center></td>
 						<td><center><a class="btn btn-danger btn-sm" href="{{route('excluirDoc', $documento->id)}}" ><i class="fas fa-times-circle"></i></center></td>

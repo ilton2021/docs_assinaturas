@@ -21,7 +21,7 @@ class PdfDemoController extends Controller
         PDF::AddPage();
         PDF::writeHTML($html_content, true, false, true, false, '');
  
-        PDF::Output('SamplePDF.pdf');
+        PDF::Output('SamplePDF.pdf'); 
     }
  
  

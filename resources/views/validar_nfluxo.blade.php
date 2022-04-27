@@ -43,8 +43,8 @@
              <td>Data Prevista: <input class="form-control" readonly="true" type="text" id="data_prevista" name="data_prevista" required value="<?php echo date('d-m-Y',strtotime($aprovacao[0]->data_prevista)); ?>" /></td>
             </tr>
             <tr>
-              <td>Solicitante: <input readonly="true" class="form-control" type="text" id="solicitante" name="solicitante" required value="<?php echo Auth::user()->name; ?>" /></td>
-              <td>Gestor Imediato: <input readonly="true" class="form-control" type="text" id="gestor_imediato" name="gestor_imediato" required value="<?php echo $gestor[0]->nome; ?>" /></td>
+              <td>Aprovador: <input readonly="true" class="form-control" type="text" id="solicitante" name="solicitante" required value="<?php echo Auth::user()->name; ?>" /></td>
+              <td>Próximo Aprovador: <input readonly="true" class="form-control" type="text" id="gestor_imediato" name="gestor_imediato" required value="<?php echo $gestor[0]->nome; ?>" /></td>
             </tr>
 		   </table>
 		  </center>

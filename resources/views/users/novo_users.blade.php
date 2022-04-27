@@ -48,6 +48,16 @@
                                         </select>
                                       </td>
                                     </tr>
+                                    <tr> 
+                                      <td> Função do Usuário: </td>
+                                      <td> 
+                                        <select id="funcao_id" name="funcao_id" class="form-control">
+                                          @foreach($funcoes as $funcao)
+                                            <option id="funcao_id" name="funcao_id" value="<?php echo $funcao->id; ?>">{{ $funcao->descricao }}</option>
+                                          @endforeach 
+                                        </select>
+                                      </td>
+                                    </tr>
                                     <tr>
                                       <td>Senha do Usuário:</td>
                                       <td> <input type="password" id="password" name="password" class="form-control" required /> </td>

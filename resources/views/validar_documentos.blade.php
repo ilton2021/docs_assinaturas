@@ -120,8 +120,9 @@
           </table>
           <table style="width: 1340px;">
             <tr>
-                <td> <a href="{{ url('/home') }}" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a>  </td>
-                <td> <p align="right"> <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="APROVAR" id="Salvar" name="Salvar" /> </p> </td> </tr>
+                <td> <a href="{{ url('/home') }}" id="Voltar" name="Voltar" type="button" class="btn btn-primary btn-sm" style="color: #FFFFFF;"> VOLTAR <i class="fas fa-undo-alt"></i> </a>  </td>
+                <td> <p align="right"> <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="APROVAR" id="Salvar" name="Salvar" /> </p> </td> 
+            </tr>
           </table>
           <input hidden type="text" id="resposta" name="resposta" value="" /> 
           <input hidden type="text" id="data_aprovacao" name="data_aprovacao" value="" /> 

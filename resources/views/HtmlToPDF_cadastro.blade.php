@@ -31,23 +31,23 @@
                         Cadastrar PDF: <i class="fas fa-check-circle"></i>
                     </a>
                 </div>	
-					 <form action="{{ \Request::route('cadastrarPDF') }}" method="post" enctype="multipart/form-data">
-					 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<table border="0" class="table-sm" style="line-height: 1.5;" >
-						 <tr>
-							<td> PDF: </td>
-							<td> 
-							  <input class="form-control" style="width: 400px" type="file" id="imagem" name="imagem" required value="" /> 
-							</td>
-						 </tr>
-						</table>
-						<table>
-						 <tr>
-						  <td> <br> <a href="" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a> 
-						  <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Salvar" id="Salvar" name="Salvar" /> </td>
-						 </tr>
-						</table>
-						</form>
+				<form action="{{ \Request::route('cadastrarPDF') }}" method="post" enctype="multipart/form-data">
+				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<table border="0" class="table-sm" style="line-height: 1.5;" >
+					 <tr>
+						<td> PDF: </td>
+						<td> 
+						  <input class="form-control" style="width: 400px" type="file" id="imagem" name="imagem" required value="" /> 
+						</td>
+					 </tr>
+					</table>
+					<table>
+					 <tr>
+					  <td> <br> <a href="" id="Voltar" name="Voltar" type="button" class="btn btn-warning btn-sm" style="margin-top: 10px; color: #FFFFFF;"> Voltar <i class="fas fa-undo-alt"></i> </a> 
+				 	 	 <input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Salvar" id="Salvar" name="Salvar" /> </td>
+					 </tr>
+					</table>
+				</form>
 		</div>
     </div>
 </div>

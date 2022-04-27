@@ -18,8 +18,8 @@
 							<ul>
 								@if(Auth::user()->funcao_id == 1)
 								<li><a href="{{ route('cadastroBasicos') }}" id="portfolio-link"><span class="icon solid fa-calendar-plus">Cadastros Básicos</span></a></li>
-								<li><a href="{{ route('cadastroDoc') }}" id="about-link"><span class="icon solid fa-book-open">Cadastrar Documento</span></a></li>
-								<li><a href="{{ route('escolher_unidade') }}" id="avisos-link"><span class="icon solid fa-check-square">Novo Fluxo</span></a></li>
+								<li><a href="{{ route('cadastroDoc') }}" id="about-link"><span class="icon solid fa-book-open">Cadastrar Documento Fluxo</span></a></li>
+								<!--li><a href="{{ route('escolher_unidade') }}" id="avisos-link"><span class="icon solid fa-check-square">Novo Fluxo</span></a></li-->
 								@endif
 								<li><a href="{{ route('validarDocs') }}" id="about-link"><span class="icon solid fa-calendar-check">Validar Documento</span></a></li>
 								<li><a href="{{ route('visualizarFluxos') }}" id="portfolio-link"><span class="icon solid fa-th">Visualizar Fluxo</span></a></li>
